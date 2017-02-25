@@ -1,0 +1,61 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="tol" id="1">
+        <createTable tableName="MENUITEMS">
+            <column autoIncrement="true" name="ID" type="INT(10)">
+                <constraints primaryKey="true" primaryKeyName="MENUITEMS_ID_PK"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="URL" type="VARCHAR(255)"/>
+            <column name="PARENT_ID" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="tol" id="2">
+        <createTable tableName="MENUITEMS_TO_ROLE">
+            <column name="MENUITEMS_ID" type="INT(10)"/>
+            <column name="ROLE_ID" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="tol" id="3">
+        <createTable tableName="ROLES">
+            <column autoIncrement="true" name="ID" type="INT(10)">
+                <constraints primaryKey="true" primaryKeyName="ROLES_ID_PK"/>
+            </column>
+            <column name="NAME" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="tol" id="4">
+        <createIndex indexName="MENUITEMS_TO_ROLE_MENUITEMS_ID_FK_INDEX_1" tableName="MENUITEMS_TO_ROLE">
+            <column name="MENUITEMS_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="tol" id="5">
+        <createIndex indexName="MENUITEMS_TO_ROLE_ROLES_ID_FK_INDEX_1" tableName="MENUITEMS_TO_ROLE">
+            <column name="ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="tol" id="6">
+        <createIndex indexName="roles_name_uindex" tableName="ROLES" unique="true">
+            <column name="NAME"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="tol" id="7">
+        <addForeignKeyConstraint baseColumnNames="MENUITEMS_ID" baseTableName="MENUITEMS_TO_ROLE" constraintName="MENUITEMS_TO_ROLE_MENUITEMS_ID_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="MENUITEMS"/>
+    </changeSet>
+
+    <changeSet author="tol" id="8">
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="MENUITEMS_TO_ROLE" constraintName="MENUITEMS_TO_ROLE_ROLES_ID_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ROLES"/>
+    </changeSet>
+
+</databaseChangeLog>
